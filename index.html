@@ -16,6 +16,8 @@
                 Age: <input type="text" id="age" /> <br /><br />
                 <input type="submit" value="Save" />
             </form>
+            <input type="text" id="docID" hidden="" />
+            <input type="button" onclick="updateNow()" value="update" />
 
             <br /><br /><br />
 
@@ -47,11 +49,38 @@
                 $("#allData tbody").append('<tr>'
                 +'<td>'+ data.userName + '</td>'
                 +'<td>'+ data.userAge + '</td>'
-                +'<td><input type="button" value="Update" /></td>'
-                +'<td><input type="button" value="Delete" /></td>'
+                +'<td><input type="button" onclick="update(\''+doc.id+'\')" value="Update" /></td>'
+                +'<td><input type="button" onclick="deleteData(\''+doc.id+'\')" value="Delete" /></td>'
                 +'</tr>');
             })
         })
+
+        function update(docID){
+            var name = document.getElementById("name");
+            var age = document.getElementById("age");
+            document.getElementById("docID").value = docID;
+
+            db.collection("users").doc(docID).get().then((doc)=>{
+                var data = doc.data();
+                name.value = data.userName;
+                age.value = data.userAge; 
+            });
+        }
+
+        function updateNow(){
+            var name = document.getElementById("name").value;
+            var age = document.getElementById("age").value;
+            var docID = document.getElementById("docID").value;
+
+            db.collection("users").doc(docID).update({
+                userName: name,
+                userAge: age
+            });
+        }
+
+        function deleteData(docID){
+            db.collection("users").doc(docID).delete();
+        }
 
 
         function saveData(){
