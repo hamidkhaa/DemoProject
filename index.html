@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Firebase Demo</title>
+    </head>
+    <style>
+        table, tr, td, th {
+            border: 1px solid black;
+        }
+    </style>
+    <body>
+        <center>
+
+            <h1>Firebase Demo Project</h1> <br />
+            <form id="myForm" onsubmit="saveData();return false;">
+                Name: <input type="text" id="name" /> <br /><br />
+                Age: <input type="text" id="age" /> <br /><br />
+                <input type="submit" value="Save" />
+            </form>
+
+            <br /><br /><br />
+
+            <table id="allData">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </center>
+    </body>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-firestore.js"></script>
+    <script src="config.js"></script>
+
+    <script>
+        function saveData(){
+            var name = document.getElementById("name").value;
+            var age = document.getElementById("age").value;
+
+            db.collection("users").add({
+                userName: name,
+                userAge: age
+            }).then(() => {
+                alert("data saved");
+            })
+        }
+    </script>
+</html>
